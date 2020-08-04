@@ -10,10 +10,9 @@ end
 
 files = Dir[season_directory + "/*"]
 
-files_to_rename = files.filter { |filename| filename[/\d+\.\d+ - \w+/] }
+files_to_rename = files.filter { |filename| filename[/\d+[-\.]\d+ - \w+/] }
 filename_parts = files_to_rename.map do |filename|
-  # TODO: trim off the start of the path...
-  first_split = File.basename(filename).split('.')
+  first_split = File.basename(filename).split(/[-\.]/, 2)
   season_number = first_split[0].strip
   second_split = first_split[1].split('-')
   episode_number = second_split[0].strip
