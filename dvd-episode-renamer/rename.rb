@@ -5,18 +5,18 @@ show_name = ARGV[1]
 dryrun = ARGV[2]
 
 if show_name.nil? or show_name.empty?
-  raise "Show name is required!"
+  raise "Show name is required!\n\nUsage: `ruby rename.rb /mnt/transmogrifier_video/WIP/Chuck/CHUCK\ SEASON\ 2/ \"Chuck\" dryrun`"
 end
 
 files = Dir[season_directory + "/*"]
 
-files_to_rename = files.filter { |filename| filename[/\d+[-\.]\d+ - \w+/] }
+files_to_rename = files.filter { |filename| filename[/\d+[-\.]\d+ ?[-\.] \w+/] }
 filename_parts = files_to_rename.map do |filename|
   first_split = File.basename(filename).split(/[-\.]/, 2)
   season_number = first_split[0].strip
-  second_split = first_split[1].split('-')
+  second_split = first_split[1].split(/[-\.]/)
   episode_number = second_split[0].strip
-  episode_name = second_split[1].strip
+  episode_name = second_split[1].split('%')[0].strip
   {
       original_name: filename,
       season_number: season_number.to_i,
